@@ -5,7 +5,6 @@ export default function Home() {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Список идентификаторов токенов
   const tokenIds = `
     ai16z,fartcoin,grass,goatseus-maximus,io-net,act-i-the-ai-prophecy,zerebro,
     nosana,griffain,tars-protocol,ai-rig-complex,eliza,alchemist-ai,memes-ai,
@@ -22,7 +21,7 @@ export default function Home() {
     gemxbt,roastmaster9000,nova-on-mars,sendor,flowerai,dojo-protocol,
     internosaur,devin,lea-ai,rex-3,aletheia,mona-arcane,apicoin,cyphomancer,
     lucy-ai,agent-rogue
-  `.replace(/\s/g, ""); // Убираем лишние пробелы
+  `.replace(/\s/g, "");
 
   useEffect(() => {
     async function fetchCoins() {
@@ -31,8 +30,8 @@ export default function Home() {
           "https://api.coingecko.com/api/v3/simple/price",
           {
             params: {
-              ids: tokenIds, // Список токенов
-              vs_currencies: "usd", // Валюта: USD
+              ids: tokenIds,
+              vs_currencies: "usd",
             },
           }
         );
@@ -47,19 +46,24 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <h1 className="text-4xl font-bold text-center my-8">Цены на криптовалюты</h1>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white">
+      <header className="text-center py-6">
+        <h1 className="text-5xl font-extrabold">Crypto Token Prices</h1>
+        <p className="text-lg mt-2 opacity-75">Updated in real-time</p>
+      </header>
       {loading ? (
-        <p className="text-center">Загрузка...</p>
+        <p className="text-center mt-20 text-lg animate-pulse">Loading prices...</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 pb-10">
           {Object.entries(coins).map(([key, value]) => (
             <div
               key={key}
-              className="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition"
+              className="bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition hover:scale-105"
             >
-              <h2 className="text-xl font-semibold">{key.toUpperCase()}</h2>
-              <p className="text-lg">Цена: ${value.usd.toFixed(2)}</p>
+              <h2 className="text-xl font-semibold mb-2">{key.toUpperCase()}</h2>
+              <p className="text-lg">
+                Price: <span className="text-green-400">${value.usd.toFixed(2)}</span>
+              </p>
             </div>
           ))}
         </div>
